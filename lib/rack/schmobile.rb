@@ -10,6 +10,8 @@ module Rack
       portalmmm sagem mot- sie- ipod up.b  webos amoi novarra cdm alcatel pocket ipad iphone mobileexplorer mobile
     )
 
+    SCHMOBILE_MODE = 'schmobile_mode'
+
     def self.remove_user_agent_pattern(pattern)
       MOBILE_USER_AGENTS.delete(pattern)
       @mobile_agent_matcher = nil
@@ -45,12 +47,12 @@ module Rack
       session = env['rack.session'] ||= {}
 
       request = Rack::Request.new(env)
-      if request.params['schmobile_mode']
-        session['schmobile_mode'] = request.params['shcmobile_mode']
+      if request.params[SCHMOBILE_MODE]
+        session[SCHMOBILE_MODE] = request.params[SCHMOBILE_MODE]
       end
 
-      unless session['schmobile_mode'].nil?
-        return session['schmobile_mode'] == 'enabled'
+      unless session[SCHMOBILE_MODE].nil?
+        return session[SCHMOBILE_MODE] == 'enabled'
       end
 
       request.is_mobile?
