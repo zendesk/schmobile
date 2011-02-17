@@ -1,9 +1,41 @@
 = schmobile
 
-Description goes here.
+A mobile user agent detection Rack middleware.
+
+== Redirecting
+
+It can be configured to return the user to an explicit destination:
+
+  use Rack::Schmobile, :redirect_to => "/mobile"
+
+It supports string interpolation for dynamic destinations:
+
+  use Rack::Schmobile, :redirect_to => "/mobile/#!/{{path}}"
+
+== Forcing mobile mode
+
+You can force toggle mobile mode by sending +schmobile_mode=enabled+ and +schmobile_mode=disabled+ - note that these
+require session access.
+
+Finally the middleware provides Rack::Request#is_mobile?
+
+== User agent detection
+
+You can add/remove user agents like so:
+
+Rack::Schmobile.add_user_agent_pattern("wibble")
+Rack::Schmobile.remote_user_agent_pattern("ipad")
+
+== Thanks
+
+Not quite what we were looking for, but good inspiration and may work for you:
+
+  https://github.com/talison/rack-mobile-detect
+  https://github.com/brendanlim/mobile-fu
+
 
 == Contributing to schmobile
- 
+
 * Check out the latest master to make sure the feature hasn't been implemented or the bug hasn't been fixed yet
 * Check out the issue tracker to make sure someone already hasn't requested it and/or contributed it
 * Fork the project
