@@ -17,7 +17,7 @@ class TestSchmobile < Test::Unit::TestCase
     end
   end
 
-  context "Rack::Schmobile" do
+  context "Rack::Schmobile class" do
     context "#remove_user_agent_pattern" do
       should "allow removal of a user agent" do
         request = stub(:user_agent => "novarra")
@@ -38,12 +38,59 @@ class TestSchmobile < Test::Unit::TestCase
   end
 
   context "Rack::Schmobile" do
-    context "with no redirect_to" do
-      setup do
-        @app  = Class.new { def call(app); true; end }.new
-        @rack = Rack::Schmobile.new(@app)
+    setup do
+      @app  = Class.new { def call(app); true; end }.new
+      @rack = Rack::Schmobile.new(@app)
+    end
+
+    should "return an HTTP permanent redirect when given a redirect path and used by a mobile client" do
+      @rack.stubs(:redirect).returns("/hello")
+      @rack.expects(:is_mobile_session?).returns(true)
+
+      assert_equal [301, {"Location"=>"/hello"}, []], @rack.call(environment)
+    end
+
+    context "#is_mobile_session?" do
+      should "return false for regular browsers" do
+        Rack::Request.any_instance.expects(:params).returns({})
+        assert !@rack.is_mobile_session?(environment)
       end
 
+      should "return true for a mobile browser" do
+        Rack::Request.any_instance.expects(:params).returns({})
+        assert @rack.is_mobile_session?(environment("HTTP_USER_AGENT" => iphone))
+      end
+
+      should "return false when forced in the session" do
+        Rack::Request.any_instance.expects(:params).returns({})
+        Rack::Request.any_instance.expects(:is_mobile?).never
+
+        assert !@rack.is_mobile_session?(environment("HTTP_USER_AGENT" => iphone, "rack.session" => { Rack::Schmobile::SCHMOBILE_MODE => "disabled" }))
+      end
+
+      should "return true when forced in the session" do
+        Rack::Request.any_instance.expects(:params).returns({})
+        Rack::Request.any_instance.expects(:is_mobile?).never
+
+        assert @rack.is_mobile_session?(environment("rack.session" => { Rack::Schmobile::SCHMOBILE_MODE => "enabled" }))
+      end
+
+      should "return false when forced via a request parameter" do
+        Rack::Request.any_instance.stubs(:params).returns({ Rack::Schmobile::SCHMOBILE_MODE => "disabled" })
+        Rack::Request.any_instance.expects(:is_mobile?).never
+
+        assert !@rack.is_mobile_session?(environment("HTTP_USER_AGENT" => iphone))
+      end
+
+      should "return true when forced via a request parameter" do
+        Rack::Request.any_instance.stubs(:params).returns({ Rack::Schmobile::SCHMOBILE_MODE => "enabled" })
+        Rack::Request.any_instance.expects(:is_mobile?).never
+
+        assert @rack.is_mobile_session?(environment)
+      end
+    end
+
+    context "with no redirect_to" do
       should "not redirect mobile traffic" do
         Rack::Request.any_instance.expects(:params).returns({})
 
@@ -61,7 +108,6 @@ class TestSchmobile < Test::Unit::TestCase
 
     context "with redirect_to" do
       setup do
-        @app  = Class.new { def call(app); true; end }.new
         @rack = Rack::Schmobile.new(@app, :redirect_to => "/wonderland")
       end
 
