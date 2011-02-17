@@ -5,12 +5,12 @@
 
 Gem::Specification.new do |s|
   s.name = %q{schmobile}
-  s.version = "0.0.1"
+  s.version = "0.0.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Morten Primdahl"]
   s.date = %q{2011-02-17}
-  s.description = %q{TODO: longer description of your gem}
+  s.description = %q{TODO: Used to determine if a request is from a mobile client, and possibly redirect it if that's the case}
   s.email = %q{morten@zendesk.com}
   s.extra_rdoc_files = [
     "LICENSE.txt",
@@ -25,6 +25,7 @@ Gem::Specification.new do |s|
     "Rakefile",
     "VERSION",
     "lib/rack/schmobile.rb",
+    "schmobile.gemspec",
     "test/helper.rb",
     "test/test_schmobile.rb"
   ]
@@ -32,7 +33,7 @@ Gem::Specification.new do |s|
   s.licenses = ["MIT"]
   s.require_paths = ["lib"]
   s.rubygems_version = %q{1.3.7}
-  s.summary = %q{TODO: one-line summary of your gem}
+  s.summary = %q{TODO: A Rack middleware for detecting mobile user agents}
   s.test_files = [
     "test/helper.rb",
     "test/test_schmobile.rb"
