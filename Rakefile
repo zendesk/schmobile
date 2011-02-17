@@ -15,8 +15,8 @@ Jeweler::Tasks.new do |gem|
   gem.name = "schmobile"
   gem.homepage = "http://github.com/morten/schmobile"
   gem.license = "MIT"
-  gem.summary = %Q{TODO: A Rack middleware for detecting mobile user agents}
-  gem.description = %Q{TODO: Used to determine if a request is from a mobile client, and possibly redirect it if that's the case}
+  gem.summary = %Q{A Rack middleware for detecting mobile user agents}
+  gem.description = %Q{Used to determine if a request is from a mobile client, and possibly redirect it if that's the case}
   gem.email = "morten@zendesk.com"
   gem.authors = ["Morten Primdahl"]
   # Include your dependencies below. Runtime dependencies are required when using your gem,
