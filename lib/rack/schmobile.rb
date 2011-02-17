@@ -62,13 +62,9 @@ module Rack
       !redirect.empty? && Rack::Utils.unescape(env["PATH_INFO"]) !~ /^#{redirect}/
     end
 
-    def redirect(params = {})
+    def redirect
       destination = @options[:redirect_to].to_s
-      params.each_pair do |key, value|
-        destination << destination.index("?") ? "&" : "?"
-        destination << "&#{key}=#{Rack::Utils.escape(value.to_s)}"
-      end
-      destination
+      # Substitutions here
     end
 
   end
