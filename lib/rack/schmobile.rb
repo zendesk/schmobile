@@ -37,7 +37,7 @@ module Rack
 
     def call(env)
       if is_mobile_session?(env) && redirect?(env)
-        return [ 301, { "Location" => redirect }, [] ]
+        return [ 301, { "Location" => redirect(env) }, [] ]
       end
 
       @app.call(env)
@@ -59,12 +59,14 @@ module Rack
     end
 
     def redirect?(env)
-      !redirect.empty? && Rack::Utils.unescape(env["PATH_INFO"]) !~ /^#{redirect}/
+      !redirect(env).empty? && Rack::Utils.unescape(env["PATH_INFO"]) !~ /^#{redirect(env)}/
     end
 
-    def redirect
+    def redirect(env)
       destination = @options[:redirect_to].to_s
+      request     = Rack::Request.new(env)
       # Substitutions here
+      destination
     end
 
   end

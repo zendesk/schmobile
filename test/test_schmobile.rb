@@ -78,7 +78,15 @@ class TestSchmobile < Test::Unit::TestCase
           assert !@rack.redirect?(environment("PATH_INFO" => "/wonderland"))
         end
       end
+
+      context "#redirect" do
+        should_eventually "interpolate the argument string" do
+          @rack = Rack::Schmobile.new(@app, :redirect_to => "/wonderland/{{path}}")
+          assert_equal "/wonderland/wiffle", @rack.redirect(environment("PATH_INFO" => "wiffle"))
+        end
+      end
     end
+
   end
 
   # User agents for testing
