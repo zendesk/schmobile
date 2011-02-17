@@ -19,6 +19,10 @@ require session access.
 
 Finally the middleware provides Rack::Request#is_mobile?
 
+== Rolling out
+
+  use Rack::Schmobile, :redirect_to => "/mobile", :if => Proc.new { |request| request.host =~ /staging/ }
+
 == User agent detection
 
 You can add/remove user agents like so:

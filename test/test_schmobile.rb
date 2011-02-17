@@ -53,40 +53,40 @@ class TestSchmobile < Test::Unit::TestCase
     context "#is_mobile_session?" do
       should "return false for regular browsers" do
         Rack::Request.any_instance.expects(:params).returns({})
-        assert !@rack.is_mobile_session?(environment)
+        assert !@rack.is_mobile_session?(environment, request)
       end
 
       should "return true for a mobile browser" do
         Rack::Request.any_instance.expects(:params).returns({})
-        assert @rack.is_mobile_session?(environment("HTTP_USER_AGENT" => iphone))
+        assert @rack.is_mobile_session?(environment, request("HTTP_USER_AGENT" => iphone))
       end
 
       should "return false when forced in the session" do
-        Rack::Request.any_instance.expects(:params).returns({})
+        Rack::Request.any_instance.stubs(:params).returns({})
         Rack::Request.any_instance.expects(:is_mobile?).never
 
-        assert !@rack.is_mobile_session?(environment("HTTP_USER_AGENT" => iphone, "rack.session" => { Rack::Schmobile::SCHMOBILE_MODE => "disabled" }))
+        assert !@rack.is_mobile_session?(environment("HTTP_USER_AGENT" => iphone, "rack.session" => { Rack::Schmobile::SCHMOBILE_MODE => "disabled" }), request)
       end
 
       should "return true when forced in the session" do
         Rack::Request.any_instance.expects(:params).returns({})
         Rack::Request.any_instance.expects(:is_mobile?).never
 
-        assert @rack.is_mobile_session?(environment("rack.session" => { Rack::Schmobile::SCHMOBILE_MODE => "enabled" }))
+        assert @rack.is_mobile_session?(environment("rack.session" => { Rack::Schmobile::SCHMOBILE_MODE => "enabled" }), request)
       end
 
       should "return false when forced via a request parameter" do
         Rack::Request.any_instance.stubs(:params).returns({ Rack::Schmobile::SCHMOBILE_MODE => "disabled" })
         Rack::Request.any_instance.expects(:is_mobile?).never
 
-        assert !@rack.is_mobile_session?(environment("HTTP_USER_AGENT" => iphone))
+        assert !@rack.is_mobile_session?(environment, request("HTTP_USER_AGENT" => iphone))
       end
 
       should "return true when forced via a request parameter" do
         Rack::Request.any_instance.stubs(:params).returns({ Rack::Schmobile::SCHMOBILE_MODE => "enabled" })
         Rack::Request.any_instance.expects(:is_mobile?).never
 
-        assert @rack.is_mobile_session?(environment)
+        assert @rack.is_mobile_session?(environment, request)
       end
     end
 
@@ -113,26 +113,33 @@ class TestSchmobile < Test::Unit::TestCase
 
       context "#redirect?" do
         should "return true when not on mobile path" do
-          assert @rack.redirect?(environment("PATH_INFO" => "/somewhere"))
+          assert @rack.redirect?(request("PATH_INFO" => "/somewhere"))
         end
 
         should "return true on base path" do
-          assert @rack.redirect?(environment("PATH_INFO" => "/"))
+          assert @rack.redirect?(request("PATH_INFO" => "/"))
         end
 
         should "return false when already on path" do
-          assert !@rack.redirect?(environment("PATH_INFO" => "/wonderland"))
+          assert !@rack.redirect?(request("PATH_INFO" => "/wonderland"))
+          assert !@rack.redirect?(request("PATH_INFO" => "/wonderland/more/stuff"))
+        end
+
+        should "return false when :if resolves to false" do
+          @rack = Rack::Schmobile.new(@app, :if => Proc.new { |request| false })
+          assert !@rack.redirect?(request("PATH_INFO" => "/somewhere"))
         end
       end
 
       context "#redirect" do
         should "interpolate the argument string" do
           @rack = Rack::Schmobile.new(@app, :redirect_to => "/wonderland/{{path}}")
-          assert_equal "/wonderland/wiffle", @rack.redirect(environment("PATH_INFO" => "wiffle"))
+          assert_equal "/wonderland/wiffle", @rack.redirect(request("PATH_INFO" => "wiffle"))
         end
+
         should "interpolate a multipart argument string" do
           @rack = Rack::Schmobile.new(@app, :redirect_to => "/wonderland/{{path}}/lemurs/{{path}}")
-          assert_equal "/wonderland/wiffle/lemurs/wiffle", @rack.redirect(environment("PATH_INFO" => "wiffle"))
+          assert_equal "/wonderland/wiffle/lemurs/wiffle", @rack.redirect(request("PATH_INFO" => "wiffle"))
         end
       end
     end
@@ -158,6 +165,10 @@ class TestSchmobile < Test::Unit::TestCase
 
   def samsung
     'Mozilla/4.0 (compatible; MSIE 6.0; BREW 3.1.5; en )/800x480 Samsung SCH-U960'
+  end
+
+  def request(overwrite = {})
+    Rack::Request.new(environment(overwrite))
   end
 
   def environment(overwrite = {})

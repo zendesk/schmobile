@@ -36,8 +36,10 @@ module Rack
     end
 
     def call(env)
-      if is_mobile_session?(env) && redirect?(env)
-        return [ 301, { "Location" => redirect(env) }, [] ]
+      request = Rack::Request.new(env)
+
+      if is_mobile_session?(env, request) && redirect?(request)
+        return [ 301, { "Location" => redirect(request) }, [] ]
       end
 
       @app.call(env)
@@ -45,10 +47,9 @@ module Rack
 
     # Checks if this session has been forced into mobile mode and returns that if that is the case. Otherwise
     # checks the user agent via request.is_mobile?
-    def is_mobile_session?(env)
+    def is_mobile_session?(env, request)
       session = env['rack.session'] ||= {}
 
-      request = Rack::Request.new(env)
       if request.params[SCHMOBILE_MODE]
         session[SCHMOBILE_MODE] = request.params[SCHMOBILE_MODE]
       end
@@ -62,13 +63,16 @@ module Rack
 
     # Returns true if this middleware has been configured with a redirect_to and the requested path is not already
     # below the configured redirect_to
-    def redirect?(env)
-      !redirect(env).empty? && Rack::Utils.unescape(env["PATH_INFO"]) !~ /^#{redirect(env)}/
+    def redirect?(request)
+      if @options[:if].is_a?(Proc)
+        return false unless @options[:if].call(request)
+      end
+
+      !redirect(request).empty? && request.path !~ /^#{redirect(request)}/
     end
 
-    def redirect(env)
+    def redirect(request)
       destination = @options[:redirect_to].to_s
-      request     = Rack::Request.new(env)
       build_path(destination, request)
     end
 
@@ -76,12 +80,12 @@ module Rack
 
     def build_path(destination, request)
       final_destination = destination.dup
-      destination.scan(/\{\{\w+\}\}/) { |call|
+      destination.scan(/\{\{\w+\}\}/) do |call|
         func = call.scan(/\w+/).to_s
         if request.respond_to?(func)
           final_destination.sub!(/\{\{#{func}\}\}/, request.send(func))
         end
-      }
+      end
       final_destination
     end
 
