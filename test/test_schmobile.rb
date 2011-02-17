@@ -80,9 +80,13 @@ class TestSchmobile < Test::Unit::TestCase
       end
 
       context "#redirect" do
-        should_eventually "interpolate the argument string" do
+        should "interpolate the argument string" do
           @rack = Rack::Schmobile.new(@app, :redirect_to => "/wonderland/{{path}}")
           assert_equal "/wonderland/wiffle", @rack.redirect(environment("PATH_INFO" => "wiffle"))
+        end
+        should "interpolate a multipart argument string" do
+          @rack = Rack::Schmobile.new(@app, :redirect_to => "/wonderland/{{path}}/lemurs/{{path}}")
+          assert_equal "/wonderland/wiffle/lemurs/wiffle", @rack.redirect(environment("PATH_INFO" => "wiffle"))
         end
       end
     end

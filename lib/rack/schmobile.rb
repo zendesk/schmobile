@@ -65,8 +65,20 @@ module Rack
     def redirect(env)
       destination = @options[:redirect_to].to_s
       request     = Rack::Request.new(env)
-      # Substitutions here
-      destination
+      build_path(destination, request)
+    end
+
+    private
+
+    def build_path(destination, request)
+      final_destination = destination.dup
+      destination.scan(/\{\{\w+\}\}/) { |call|
+        func = call.scan(/\w+/).to_s
+        if request.respond_to?(func)
+          final_destination.sub!(/\{\{#{func}\}\}/, request.send(func))
+        end
+      }
+      final_destination
     end
 
   end
