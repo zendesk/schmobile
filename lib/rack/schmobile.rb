@@ -43,6 +43,8 @@ module Rack
       @app.call(env)
     end
 
+    # Checks if this session has been forced into mobile mode and returns that if that is the case. Otherwise
+    # checks the user agent via request.is_mobile?
     def is_mobile_session?(env)
       session = env['rack.session'] ||= {}
 
@@ -58,6 +60,8 @@ module Rack
       request.is_mobile?
     end
 
+    # Returns true if this middleware has been configured with a redirect_to and the requested path is not already
+    # below the configured redirect_to
     def redirect?(env)
       !redirect(env).empty? && Rack::Utils.unescape(env["PATH_INFO"]) !~ /^#{redirect(env)}/
     end
