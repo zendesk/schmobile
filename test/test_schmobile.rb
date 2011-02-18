@@ -44,7 +44,7 @@ class TestSchmobile < Test::Unit::TestCase
     end
 
     should "return an HTTP permanent redirect when given a redirect path and used by a mobile client" do
-      @rack.stubs(:redirect).returns("/hello")
+      @rack = Rack::Schmobile.new(@app, :redirect_to => "/hello")
       @rack.expects(:is_mobile_session?).returns(true)
 
       assert_equal [301, {"Location"=>"/hello"}, []], @rack.call(environment)
@@ -133,13 +133,13 @@ class TestSchmobile < Test::Unit::TestCase
 
       context "#redirect" do
         should "interpolate the argument string" do
-          @rack = Rack::Schmobile.new(@app, :redirect_to => "/wonderland/{{path}}")
-          assert_equal "/wonderland/wiffle", @rack.redirect(request("PATH_INFO" => "wiffle"))
+          @rack = Rack::Schmobile.new(@app, :redirect_to => "/wonderland", :redirect_with => "/{{path}}")
+          assert_equal "/wonderland/wiffle", @rack.redirect_location(request("PATH_INFO" => "wiffle"))
         end
 
         should "interpolate a multipart argument string" do
-          @rack = Rack::Schmobile.new(@app, :redirect_to => "/wonderland/{{path}}/lemurs/{{path}}")
-          assert_equal "/wonderland/wiffle/lemurs/wiffle", @rack.redirect(request("PATH_INFO" => "wiffle"))
+          @rack = Rack::Schmobile.new(@app, :redirect_to => "/wonderland/", :redirect_with => "{{path}}/lemurs/{{path}}")
+          assert_equal "/wonderland/wiffle/lemurs/wiffle", @rack.redirect_location(request("PATH_INFO" => "wiffle"))
         end
       end
     end

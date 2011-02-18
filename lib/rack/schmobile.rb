@@ -39,7 +39,7 @@ module Rack
       request = Rack::Request.new(env)
 
       if is_mobile_session?(env, request) && redirect?(request)
-        return [ 301, { "Location" => redirect(request) }, [] ]
+        return [ 301, { "Location" => redirect_location(request) }, [] ]
       end
 
       @app.call(env)
@@ -64,16 +64,27 @@ module Rack
     # Returns true if this middleware has been configured with a redirect_to and the requested path is not already
     # below the configured redirect_to
     def redirect?(request)
-      if @options[:if].is_a?(Proc)
-        return false unless @options[:if].call(request)
+      redirecting = true
+
+      if @options.key?(:if)
+        redirecting = @options[:if].call(request)
       end
 
-      !redirect(request).empty? && request.path !~ /^#{redirect(request)}/
+      if @options.key?(:redirect_to)
+        redirecting &&= request.path !~ /^#{@options[:redirect_to]}/
+      else
+        redirecting = false
+      end
+
+      redirecting
     end
 
-    def redirect(request)
-      destination = @options[:redirect_to].to_s
-      build_path(destination, request)
+    def redirect_location(request)
+      "#{@options[:redirect_to]}#{redirect_with(request)}"
+    end
+
+    def redirect_with(request)
+      build_path(@options[:redirect_with].to_s, request)
     end
 
     private
