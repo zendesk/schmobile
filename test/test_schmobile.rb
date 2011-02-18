@@ -126,7 +126,7 @@ class TestSchmobile < Test::Unit::TestCase
         end
 
         should "return false when :if resolves to false" do
-          @rack = Rack::Schmobile.new(@app, :if => Proc.new { |request| false })
+          @rack = Rack::Schmobile.new(@app, :redirect_to => "/wonderland", :redirect_if => Proc.new { |request| false })
           assert !@rack.redirect?(request("PATH_INFO" => "/somewhere"))
         end
       end

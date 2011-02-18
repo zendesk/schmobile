@@ -66,8 +66,8 @@ module Rack
     def redirect?(request)
       redirecting = true
 
-      if @options.key?(:if)
-        redirecting = @options[:if].call(request)
+      if @options.key?(:redirect_if)
+        redirecting = @options[:redirect_if].call(request)
       end
 
       if @options.key?(:redirect_to)
