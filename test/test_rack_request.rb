@@ -21,17 +21,14 @@ class TestRackRequest < Test::Unit::TestCase
           end
         end
 
-        should "return true for a mobile browser" do
-          assert request("HTTP_USER_AGENT" => iphone).is_mobile?
-        end
-
         should "return false when forced in the session" do
           Rack::Request.any_instance.stubs(:session).returns({ Rack::Schmobile::IS_MOBILE => false })
           assert !request("HTTP_USER_AGENT" => iphone).is_mobile?
         end
 
         should "return true when forced in the session" do
-          assert request("rack.session" => { Rack::Schmobile::IS_MOBILE => "true" }).is_mobile?
+          Rack::Request.any_instance.stubs(:session).returns({ Rack::Schmobile::IS_MOBILE => true })
+          assert request.is_mobile?
         end
       end
 
