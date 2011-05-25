@@ -5,7 +5,6 @@ require 'rack/schmobile/filters'
 
 module Rack
   module Schmobile
-    FILTERS   = [ Rack::Schmobile::Filters::IsMobileParam, Rack::Schmobile::Filters::MobileUserAgent ]
     IS_MOBILE = "is_mobile"
   end
 end

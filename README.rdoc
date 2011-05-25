@@ -1,6 +1,26 @@
 = schmobile
 
-A mobile user agent detection Rack middleware.
+A mobile user agent detection Rack middleware. It does this by providing +#is_mobile?+ to +Rack::Request+
+
+== Forcing mobile mode
+
+You can force toggle mobile mode by sending +is_mobile=true+ and +is_mobile=false+ as
+parameters in the request URL. This setting will be stored in the session for subsequent requests.
+This entirely overrides the user agent detection.
+
+== User agent detection
+
+You can add/remove user agents like so:
+
+  Rack::Schmobile::UserAgents.add_user_agent_pattern("wibble")
+  Rack::Schmobile::UserAgents.remove_user_agent_pattern("ipad")
+
+== Filters
+
+The outcome of the +request.is_mobile?+ call is the product of a series of filters getting evaluated
+against the request. You can manipulate the Rack::Schmobile::Filters::CHAIN array to alter if a
+request is deemed mobile or not. Add your own filter to bypass the check depending on e.g. location
+or request format.
 
 == Redirecting
 
@@ -16,22 +36,9 @@ Finally the middleware provides a request level method to determine if the clien
 
   Rack::Request#is_mobile?
 
-== Forcing mobile mode
-
-You can force toggle mobile mode by sending +is_mobile=true+ and +is_mobile=false+ as
-parameters in the request URL - note that these require session access. This entirely
-overrides the user agent detection.
-
 == Rolling out
 
   use Rack::Schmobile, :redirect_to => "/mobile", :if => Proc.new { |request| request.host =~ /staging/ }
-
-== User agent detection
-
-You can add/remove user agents like so:
-
-  Rack::Schmobile::UserAgents.add_user_agent_pattern("wibble")
-  Rack::Schmobile::UserAgents.remove_user_agent_pattern("ipad")
 
 == Thanks
 
