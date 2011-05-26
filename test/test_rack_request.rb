@@ -12,10 +12,15 @@ class TestRackRequest < Test::Unit::TestCase
         should "not detect a regular browser as mobile" do
           assert !request.is_mobile?
           assert !request("HTTP_USER_AGENT" => nil).is_mobile?
+
+          [ :msie6, :msie8, :opera ].each do |browser|
+            agent = self.send(browser)
+            assert request("HTTP_USER_AGENT" => agent).is_mobile?
+          end
         end
 
         should "detect mobile units as mobile" do
-          [ :ipod, :iphone, :android, :blackberry, :samsung ].each do |phone|
+          [ :ipod, :iphone, :android, :blackberry, :samsung, :palm, :htc_touch, :danger ].each do |phone|
             agent = self.send(phone)
             assert request("HTTP_USER_AGENT" => agent).is_mobile?
           end

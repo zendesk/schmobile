@@ -25,8 +25,36 @@ class Test::Unit::TestCase
     'BlackBerry9000/4.6.0.167 Profile/MIDP-2.0 Configuration/CLDC-1.1 VendorID/102'
   end
 
+  def ipad
+    "Mozilla/5.0 (iPad; U; CPU OS 3_2 like Mac OS X; en-us) AppleWebKit/531.21.10 (KHTML, like Gecko) Version/4.0.4 Mobile/7B334b Safari/531.21.10"
+  end
+
+  def palm
+    "Mozilla/5.0 (webOS/1.0; U; en-US) AppleWebKit/525.27.1 (KHTML, like Gecko) Version/1.0 Safari/525.27.1 Pre/1.0"
+  end
+
   def samsung
     'Mozilla/4.0 (compatible; MSIE 6.0; BREW 3.1.5; en )/800x480 Samsung SCH-U960'
+  end
+
+  def htc_touch
+    "HTC_Touch_Diamond2_T5353 Opera/9.50 (Windows NT 5.1; U; en)"
+  end
+
+  def danger
+    "Mozilla/5.0 (Danger hiptop 5.0; U; rv:1.7.12) Gecko/20050920"
+  end
+
+  def msie6
+    "Mozilla/4.0 (compatible; MSIE 6.0; Update a; AOL 6.0; Windows 98)"
+  end
+
+  def msie8
+    "Client: Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0; WOW64; Trident/4.0; SLCC1; .NET CLR 2.0.50727; Media Center PC 5.0; MDDR; .NET CLR 3.5.30729; InfoPath.2; .NET CLR 3.0.30729; OfficeLiveConnector.1.3; OfficeLivePatch.0.0; .NET CLR 4.0.20506; Creative AutoUpdate v1.40.01)"
+  end
+
+  def opera
+    "Opera/9.25 (Windows NT 6.0; U; en)"
   end
 
   def request(overwrite = {})
