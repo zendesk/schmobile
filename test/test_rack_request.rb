@@ -3,6 +3,17 @@ require 'helper'
 class TestRackRequest < Test::Unit::TestCase
 
   context "Rack::Request" do
+    context "#is_device?" do
+      should "match devices as part of the user agent case insensitively" do
+        assert request("HTTP_USER_AGENT"  => ipad).is_device?("ipad")
+        assert !request("HTTP_USER_AGENT" => ipad).is_device?("blackberry")
+        assert request("HTTP_USER_AGENT"  => blackberry).is_device?("blackberry")
+        assert !request("HTTP_USER_AGENT" => iphone).is_device?("blackberry")
+        assert request("HTTP_USER_AGENT" => iphone).is_device?("iphone")
+        assert !request("HTTP_USER_AGENT" => msie6).is_device?("iphone")
+      end
+    end
+
     context "#is_mobile?" do
       context "without params" do
         setup do

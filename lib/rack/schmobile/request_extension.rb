@@ -9,6 +9,10 @@ module Rack
 
         false
       end
+
+      def is_device?(identifier)
+        user_agent =~ /#{identifier}/i
+      end
     end
   end
 end
