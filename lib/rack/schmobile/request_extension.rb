@@ -2,7 +2,7 @@ module Rack
   module Schmobile
     module Request
       def is_mobile?
-        unless defined?(@is_mobile)
+        if @is_mobile.nil?
           @is_mobile = Rack::Schmobile::Filters.apply(self)
         end
 
@@ -11,6 +11,7 @@ module Rack
 
       def toggle_mobile_session!
         session[Rack::Schmobile::IS_MOBILE] = !is_mobile?
+        @is_mobile = nil
       end
 
       def is_device?(identifier)

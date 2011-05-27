@@ -15,6 +15,20 @@ class TestRackRequest < Test::Unit::TestCase
     end
 
     context "#is_mobile?" do
+      should "only call the filter chain once" do
+        Rack::Schmobile::Filters.expects(:apply).once.returns(false)
+        one_request = request
+        3.times { one_request.is_mobile? }
+      end
+
+      should "re-call the filter chain once reset" do
+        Rack::Schmobile::Filters.expects(:apply).twice.returns(false)
+        one_request = request
+        3.times { one_request.is_mobile? }
+        one_request.toggle_mobile_session!
+        3.times { one_request.is_mobile? }
+      end
+
       context "without params" do
         setup do
           Rack::Request.any_instance.stubs(:params).returns({})
