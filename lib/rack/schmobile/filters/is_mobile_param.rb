@@ -4,7 +4,7 @@ module Rack
       module IsMobileParam
         def self.call(request)
           if request.params.key?(Rack::Schmobile::IS_MOBILE)
-             return request.params[Rack::Schmobile::IS_MOBILE] == "true"
+             request.session[Rack::Schmobile::IS_MOBILE] = (request.params[Rack::Schmobile::IS_MOBILE] == "true")
           end
 
           nil

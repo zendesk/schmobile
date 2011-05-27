@@ -5,7 +5,7 @@ module Rack
     module Filters
       module MobileUserAgent
         def self.call(request)
-          Rack::Schmobile::UserAgents.is_mobile_agent?(request.user_agent)
+          request.session[Rack::Schmobile::IS_MOBILE] = Rack::Schmobile::UserAgents.is_mobile_agent?(request.user_agent)
         end
       end
     end
