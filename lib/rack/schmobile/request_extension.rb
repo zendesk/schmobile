@@ -2,12 +2,11 @@ module Rack
   module Schmobile
     module Request
       def is_mobile?
-        Rack::Schmobile::Filters::CHAIN.each do |filter|
-          result = filter.call(self)
-          return result unless result.nil?
+        unless defined?(@is_mobile)
+          @is_mobile = Rack::Schmobile::Filters.apply(self)
         end
 
-        false
+        @is_mobile
       end
 
       def is_device?(identifier)

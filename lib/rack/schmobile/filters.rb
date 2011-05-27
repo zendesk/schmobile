@@ -1,3 +1,4 @@
+require 'rack/schmobile/filters/mobile_session'
 require 'rack/schmobile/filters/is_mobile_param'
 require 'rack/schmobile/filters/mobile_user_agent'
 
@@ -9,7 +10,24 @@ module Rack
     #
     # You can modify the chain to add new conditions that check on e.g. request format.
     module Filters
-      CHAIN = [ Rack::Schmobile::Filters::IsMobileParam, Rack::Schmobile::Filters::MobileUserAgent ]
+      CHAIN = [
+        Rack::Schmobile::Filters::MobileSession,
+        Rack::Schmobile::Filters::IsMobileParam,
+        Rack::Schmobile::Filters::MobileUserAgent
+      ]
+
+      def self.apply(request)
+        Rack::Schmobile::Filters::CHAIN.each do |filter|
+          result = filter.call(request)
+
+          unless result.nil?
+            request.session[Rack::Schmobile::IS_MOBILE] = result
+            return result
+          end
+        end
+
+        false
+      end
     end
   end
 end
