@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{schmobile}
-  s.version = "0.1.3"
+  s.version = "0.2.0"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Morten Primdahl"]
-  s.date = %q{2011-05-26}
+  s.date = %q{2011-05-27}
   s.description = %q{Used to determine if a request is from a mobile client, and possibly redirect it if that's the case}
   s.email = %q{morten@zendesk.com}
   s.extra_rdoc_files = [
@@ -27,6 +27,7 @@ Gem::Specification.new do |s|
     "lib/rack/schmobile.rb",
     "lib/rack/schmobile/filters.rb",
     "lib/rack/schmobile/filters/is_mobile_param.rb",
+    "lib/rack/schmobile/filters/mobile_session.rb",
     "lib/rack/schmobile/filters/mobile_user_agent.rb",
     "lib/rack/schmobile/middleware.rb",
     "lib/rack/schmobile/request_extension.rb",
