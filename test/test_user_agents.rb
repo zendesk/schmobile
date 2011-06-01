@@ -18,6 +18,15 @@ class TestUserAgents < Test::Unit::TestCase
         assert Rack::Schmobile::UserAgents.is_mobile_agent?("wibble")
       end
     end
+
+    context "#is_mobile_agent?" do
+      should "return false for common browsers" do
+        [ :msie6, :msie8, :opera, :chrome ].each do |browser|
+          agent = self.send(browser)
+          assert !Rack::Schmobile::UserAgents.is_mobile_agent?(agent), "#{browser} should not detect as mobile, #{agent}"
+        end
+      end
+    end
   end
 
 end

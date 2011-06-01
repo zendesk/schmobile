@@ -3,10 +3,10 @@ module Rack
     class UserAgents
 
       MOBILE_USER_AGENTS = %w(
-        alcatel amoi android astel audiovox blackberry cdm ce chtml danger docomo ericsson htc_touch
+        alcatel amoi android astel audiovox blackberry cdm chtml danger docomo ericsson htc_touch
         iphone ipod j2me kddi midp minimo mmp mobi mobile mobileexplorer mot- motorola netfront nokia
         novarra palm pdxgw phone plucker pocket portable portalmmm sagem samsung sgh sie- softbank
-        sprint symbian telit ucweb up.b upg1 vodafone webos windows x240 x320 xiino
+        sprint symbian telit ucweb up.b upg1 vodafone webos windows\ ce x240 x320 xiino
       )
 
       def self.remove_user_agent_pattern(pattern)

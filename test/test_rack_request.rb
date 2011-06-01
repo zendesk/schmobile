@@ -38,9 +38,9 @@ class TestRackRequest < Test::Unit::TestCase
           assert !request.is_mobile?
           assert !request("HTTP_USER_AGENT" => nil).is_mobile?
 
-          [ :msie6, :msie8, :opera ].each do |browser|
+          [ :msie6, :msie8, :opera, :chrome ].each do |browser|
             agent = self.send(browser)
-            assert request("HTTP_USER_AGENT" => agent).is_mobile?
+            assert !request("HTTP_USER_AGENT" => agent).is_mobile?
           end
         end
 

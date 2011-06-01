@@ -53,6 +53,10 @@ class Test::Unit::TestCase
     "Client: Mozilla/4.0 (compatible; MSIE 8.0; Windows NT 6.0; WOW64; Trident/4.0; SLCC1; .NET CLR 2.0.50727; Media Center PC 5.0; MDDR; .NET CLR 3.5.30729; InfoPath.2; .NET CLR 3.0.30729; OfficeLiveConnector.1.3; OfficeLivePatch.0.0; .NET CLR 4.0.20506; Creative AutoUpdate v1.40.01)"
   end
 
+  def chrome
+    "Mozilla/5.0 (Windows NT 5.1) AppleWebKit/534.24 (KHTML, like Gecko) Chrome/11.0.696.71 Safari/534.24"
+  end
+
   def opera
     "Opera/9.25 (Windows NT 6.0; U; en)"
   end
