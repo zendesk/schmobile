@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{schmobile}
-  s.version = "0.3.1"
+  s.version = "0.3.2"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Morten Primdahl"]
-  s.date = %q{2011-05-27}
+  s.date = %q{2011-05-31}
   s.description = %q{Used to determine if a request is from a mobile client, and possibly redirect it if that's the case}
   s.email = %q{morten@zendesk.com}
   s.extra_rdoc_files = [
