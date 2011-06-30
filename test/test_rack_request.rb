@@ -51,6 +51,10 @@ class TestRackRequest < Test::Unit::TestCase
           end
         end
 
+        should "not detect an ipad as a mobile browser" do
+          assert !request("HTTP_USER_AGENT" => ipad).is_mobile?
+        end
+
         should "return false when forced in the session" do
           Rack::Request.any_instance.stubs(:session).returns({ Rack::Schmobile::IS_MOBILE => false })
           assert !request("HTTP_USER_AGENT" => iphone).is_mobile?

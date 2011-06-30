@@ -9,6 +9,10 @@ module Rack
         sprint symbian telit ucweb up.b upg1 vodafone webos windows\ ce x240 x320 xiino
       )
 
+      NON_MOBILE_USER_AGENTS = %w(
+        ipad
+      )
+
       def self.remove_user_agent_pattern(pattern)
         MOBILE_USER_AGENTS.delete(pattern)
         @mobile_agent_matcher = nil
@@ -20,11 +24,23 @@ module Rack
       end
 
       def self.is_mobile_agent?(user_agent)
-        !(user_agent.to_s.downcase =~ mobile_agent_matcher).nil?
+        agent = user_agent.to_s.downcase
+        agent !~ non_mobile_agent_matcher && !(agent =~ mobile_agent_matcher).nil?
       end
 
       def self.mobile_agent_matcher
         @mobile_agent_matcher ||= Regexp.new(MOBILE_USER_AGENTS.uniq.compact.map { |v| Regexp.escape(v) }.join("|"))
+      end
+
+      def self.non_mobile_agent_matcher
+        @non_mobile_agent_matcher ||= Regexp.new(NON_MOBILE_USER_AGENTS.uniq.compact.map { |v| Regexp.escape(v) }.join("|"))
+      end
+
+      def self.matched_by?(user_agent)
+        MOBILE_USER_AGENTS.each do |agent|
+          return agent if user_agent =~ /#{agent}/
+        end
+        nil
       end
 
     end
