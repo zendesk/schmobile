@@ -5,11 +5,11 @@
 
 Gem::Specification.new do |s|
   s.name = %q{schmobile}
-  s.version = "0.4.0"
+  s.version = "0.4.1"
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Morten Primdahl"]
-  s.date = %q{2011-06-30}
+  s.date = %q{2011-11-03}
   s.description = %q{Used to determine if a request is from a mobile client, and possibly redirect it if that's the case}
   s.email = %q{morten@zendesk.com}
   s.extra_rdoc_files = [
@@ -43,7 +43,7 @@ Gem::Specification.new do |s|
   s.homepage = %q{http://github.com/morten/schmobile}
   s.licenses = ["MIT"]
   s.require_paths = ["lib"]
-  s.rubygems_version = %q{1.6.2}
+  s.rubygems_version = %q{1.5.3}
   s.summary = %q{A Rack middleware for detecting mobile user agents}
   s.test_files = [
     "test/helper.rb",
