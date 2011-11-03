@@ -23,9 +23,21 @@ module Rack
         @mobile_agent_matcher = nil
       end
 
+      def self.remove_non_mobile_user_agent_pattern(pattern)
+        NON_MOBILE_USER_AGENTS.delete(pattern)
+        @non_mobile_agent_matcher = nil
+      end
+
+      def self.add_non_mobile_user_agent_pattern(pattern)
+        NON_MOBILE_USER_AGENTS.push(*pattern)
+        @non_mobile_agent_matcher = nil
+      end
+
       def self.is_mobile_agent?(user_agent)
-        agent = user_agent.to_s.downcase
-        agent !~ non_mobile_agent_matcher && !(agent =~ mobile_agent_matcher).nil?
+        agent  = user_agent.to_s.downcase
+        mobile = !(agent =~ mobile_agent_matcher).nil?
+        mobile = mobile && agent !~ non_mobile_agent_matcher unless NON_MOBILE_USER_AGENTS.empty?
+        mobile
       end
 
       def self.mobile_agent_matcher

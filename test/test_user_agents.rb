@@ -17,6 +17,15 @@ class TestUserAgents < Test::Unit::TestCase
         Rack::Schmobile::UserAgents.add_user_agent_pattern("wibble")
         assert Rack::Schmobile::UserAgents.is_mobile_agent?("wibble")
       end
+
+      should "allow changing behavior for a non-mobile agent" do
+        assert !Rack::Schmobile::UserAgents.is_mobile_agent?("ipad")
+        Rack::Schmobile::UserAgents.add_user_agent_pattern("ipad")
+        assert !Rack::Schmobile::UserAgents.is_mobile_agent?("ipad")
+        Rack::Schmobile::UserAgents.remove_non_mobile_user_agent_pattern("ipad")
+        assert Rack::Schmobile::UserAgents.is_mobile_agent?("ipad")
+        Rack::Schmobile::UserAgents.add_non_mobile_user_agent_pattern("ipad")
+      end
     end
 
     context "#is_mobile_agent?" do
