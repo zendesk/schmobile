@@ -1,6 +1,6 @@
 # schmobile
 
-A mobile user agent detection Rack middleware. It provides +#is_mobile?+ to +Rack::Request+
+A mobile user agent detection Rack middleware. It provides `Rack::Request#is_mobile?`
 
 ## Forcing mobile mode
 
@@ -12,8 +12,10 @@ This entirely overrides the user agent detection.
 
 You can add/remove user agents like so:
 
+```ruby
   Schmobile::UserAgents.add_user_agent_pattern("wibble")
   Schmobile::UserAgents.remove_user_agent_pattern("ipad")
+```
 
 ## Filters
 
@@ -26,19 +28,27 @@ or request format.
 
 It can be configured to return the user to an explicit destination:
 
+```ruby
   use Schmobile, :redirect_to => "/mobile"
+```
 
 It supports string interpolation for dynamic destinations:
 
+```ruby
   use Schmobile, :redirect_to => "/mobile/#!/{{path}}"
+```
 
 Finally the middleware provides a request level method to determine if the client is a mobile device
 
+```ruby
   Rack::Request#is_mobile?
+```
 
 ## Rolling out
 
+```ruby
   use Schmobile, :redirect_to => "/mobile", :if => Proc.new { |request| request.host =~ /staging/ }
+```
 
 ## Thanks
 
@@ -47,19 +57,4 @@ Not quite what we were looking for, but good inspiration and may work for you:
   https://github.com/talison/rack-mobile-detect
   https://github.com/brendanlim/mobile-fu
 
-
-## Contributing to schmobile
-
-* Check out the latest master to make sure the feature hasn't been implemented or the bug hasn't been fixed yet
-* Check out the issue tracker to make sure someone already hasn't requested it and/or contributed it
-* Fork the project
-* Start a feature/bugfix branch
-* Commit and push until you are happy with your contribution
-* Make sure to add tests for it. This is important so I don't break it in a future version unintentionally.
-* Please try not to mess with the Rakefile, version, or history. If you want to have your own version, or is otherwise necessary, that is fine, but please isolate to its own commit so I can cherry-pick around it.
-
-## Copyright
-
-Copyright (c) 2011 Morten Primdahl. See LICENSE.txt for
-further details.
 
