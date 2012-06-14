@@ -1,14 +1,15 @@
+PATH
+  remote: .
+  specs:
+    schmobile (0.5.0)
+      rack
+
 GEM
   remote: http://rubygems.org/
   specs:
-    git (1.2.5)
-    jeweler (1.5.2)
-      bundler (~> 1.0.0)
-      git (>= 1.2.5)
-      rake
     mocha (0.9.9)
       rake
-    rack (1.1.0)
+    rack (1.4.1)
     rake (0.8.7)
     shoulda (2.11.3)
 
@@ -16,8 +17,8 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  bundler (~> 1.0.0)
-  jeweler (~> 1.5.2)
-  mocha (= 0.9.9)
-  rack (~> 1.1.0)
+  bundler
+  mocha
+  rake
+  schmobile!
   shoulda

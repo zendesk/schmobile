@@ -2,14 +2,14 @@ require 'helper'
 
 class TestMiddleware < Test::Unit::TestCase
 
-  context "Rack::Schmobile::Middleware" do
+  context "Schmobile::Middleware" do
     setup do
       @app  = Class.new { def call(app); true; end }.new
-      @rack = Rack::Schmobile::Middleware.new(@app)
+      @rack = Schmobile::Middleware.new(@app)
     end
 
     should "return an HTTP permanent redirect when given a redirect path and used by a mobile client" do
-      @rack = Rack::Schmobile::Middleware.new(@app, :redirect_to => "/hello")
+      @rack = Schmobile::Middleware.new(@app, :redirect_to => "/hello")
       Rack::Request.any_instance.expects(:is_mobile?).returns(true)
 
       assert_equal [301, { "Location"=>"/hello" }, []], @rack.call(environment)
@@ -30,7 +30,7 @@ class TestMiddleware < Test::Unit::TestCase
 
     context "with redirect_to" do
       setup do
-        @rack = Rack::Schmobile::Middleware.new(@app, :redirect_to => "/wonderland")
+        @rack = Schmobile::Middleware.new(@app, :redirect_to => "/wonderland")
       end
 
       context "#redirect?" do
@@ -48,19 +48,19 @@ class TestMiddleware < Test::Unit::TestCase
         end
 
         should "return false when :if resolves to false" do
-          @rack = Rack::Schmobile::Middleware.new(@app, :redirect_to => "/wonderland", :redirect_if => Proc.new { |request| false })
+          @rack = Schmobile::Middleware.new(@app, :redirect_to => "/wonderland", :redirect_if => Proc.new { |request| false })
           assert !@rack.redirect?(request("PATH_INFO" => "/somewhere"))
         end
       end
 
       context "#redirect" do
-        should "interpolate the argument string" do
-          @rack = Rack::Schmobile::Middleware.new(@app, :redirect_to => "/wonderland", :redirect_with => "/{{path}}")
+        should "interpolate the argument string xxxx" do
+          @rack = Schmobile::Middleware.new(@app, :redirect_to => "/wonderland", :redirect_with => "/{{path}}")
           assert_equal "/wonderland/wiffle", @rack.redirect_location(request("PATH_INFO" => "wiffle"))
         end
 
         should "interpolate a multipart argument string" do
-          @rack = Rack::Schmobile::Middleware.new(@app, :redirect_to => "/wonderland/", :redirect_with => "{{path}}/lemurs/{{path}}")
+          @rack = Schmobile::Middleware.new(@app, :redirect_to => "/wonderland/", :redirect_with => "{{path}}/lemurs/{{path}}")
           assert_equal "/wonderland/wiffle/lemurs/wiffle", @rack.redirect_location(request("PATH_INFO" => "wiffle"))
         end
       end
