@@ -13,8 +13,8 @@ This entirely overrides the user agent detection.
 You can add/remove user agents like so:
 
 ```ruby
-  Schmobile::UserAgents.add_user_agent_pattern("wibble")
-  Schmobile::UserAgents.remove_user_agent_pattern("ipad")
+Schmobile::UserAgents.add_user_agent_pattern("wibble")
+Schmobile::UserAgents.remove_user_agent_pattern("ipad")
 ```
 
 ## Filters
@@ -29,32 +29,23 @@ or request format.
 It can be configured to return the user to an explicit destination:
 
 ```ruby
-  use Schmobile, :redirect_to => "/mobile"
+use Schmobile, :redirect_to => "/mobile"
 ```
 
 It supports string interpolation for dynamic destinations:
 
 ```ruby
-  use Schmobile, :redirect_to => "/mobile/#!/{{path}}"
+use Schmobile, :redirect_to => "/mobile/#!/{{path}}"
 ```
 
 Finally the middleware provides a request level method to determine if the client is a mobile device
 
 ```ruby
-  Rack::Request#is_mobile?
+Rack::Request#is_mobile?
 ```
 
 ## Rolling out
 
 ```ruby
-  use Schmobile, :redirect_to => "/mobile", :if => Proc.new { |request| request.host =~ /staging/ }
+use Schmobile, :redirect_to => "/mobile", :if => Proc.new { |request| request.host =~ /staging/ }
 ```
-
-## Thanks
-
-Not quite what we were looking for, but good inspiration and may work for you:
-
-  https://github.com/talison/rack-mobile-detect
-  https://github.com/brendanlim/mobile-fu
-
-
