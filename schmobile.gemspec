@@ -55,20 +55,17 @@ Gem::Specification.new do |s|
   # = MANIFEST =
   s.files = %w[
     Gemfile
-    Gemfile.lock
     LICENSE.txt
-    README.rdoc
+    README.md
     Rakefile
-    VERSION
-    lib/rack/schmobile.rb
-    lib/rack/schmobile/filters.rb
-    lib/rack/schmobile/filters/is_mobile_param.rb
-    lib/rack/schmobile/filters/mobile_session.rb
-    lib/rack/schmobile/filters/mobile_user_agent.rb
-    lib/rack/schmobile/middleware.rb
-    lib/rack/schmobile/request_extension.rb
-    lib/rack/schmobile/user_agents.rb
     lib/schmobile.rb
+    lib/schmobile/filters.rb
+    lib/schmobile/filters/is_mobile_param.rb
+    lib/schmobile/filters/mobile_session.rb
+    lib/schmobile/filters/mobile_user_agent.rb
+    lib/schmobile/middleware.rb
+    lib/schmobile/request_extension.rb
+    lib/schmobile/user_agents.rb
     schmobile.gemspec
     test/helper.rb
     test/test_filters.rb
