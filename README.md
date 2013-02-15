@@ -49,3 +49,7 @@ Rack::Request#is_mobile?
 ```ruby
 use Schmobile, :redirect_to => "/mobile", :if => Proc.new { |request| request.host =~ /staging/ }
 ```
+
+## License
+
+Released under the Apache License Version 2.0 http://www.apache.org/licenses/LICENSE-2.0.html
