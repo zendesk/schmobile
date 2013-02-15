@@ -1,4 +1,4 @@
-# Schmobile [![Build Status](https://secure.travis-ci.org/morten/schmobile.png)](http://travis-ci.org/morten/schmobile)
+# Schmobile [![Build Status](https://secure.travis-ci.org/zendesk/schmobile.png)](http://travis-ci.org/zendesk/schmobile)
 
 A mobile user agent detection Rack middleware. It provides `Rack::Request#is_mobile?`
 
