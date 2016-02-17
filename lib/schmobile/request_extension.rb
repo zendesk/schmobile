@@ -14,7 +14,7 @@ module Schmobile
     end
 
     def is_device?(identifier)
-      user_agent =~ /#{identifier}/i
+      !!(user_agent =~ /#{identifier}/i)
     end
   end
 end
