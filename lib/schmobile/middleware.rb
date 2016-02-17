@@ -10,7 +10,7 @@ module Schmobile
       request = Rack::Request.new(env)
 
       if request.is_mobile? && redirect?(request)
-        [ 301, { "Location" => redirect_location(request) }, [] ]
+        [ 301, { 'Location' => redirect_location(request) }, [] ]
       else
         @app.call(env)
       end
@@ -31,7 +31,7 @@ module Schmobile
         redirecting = false
       end
 
-      redirecting ? redirect_location(request) : nil
+      redirecting
     end
 
     def redirect_location(request)

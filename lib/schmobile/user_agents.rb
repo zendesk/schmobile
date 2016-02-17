@@ -40,11 +40,11 @@ module Schmobile
     end
 
     def self.mobile_agent_matcher
-      @mobile_agent_matcher ||= Regexp.new(MOBILE_USER_AGENTS.uniq.compact.map { |v| Regexp.escape(v) }.join("|"))
+      @mobile_agent_matcher ||= Regexp.new(MOBILE_USER_AGENTS.uniq.compact.map { |v| Regexp.escape(v) }.join('|'))
     end
 
     def self.non_mobile_agent_matcher
-      @non_mobile_agent_matcher ||= Regexp.new(NON_MOBILE_USER_AGENTS.uniq.compact.map { |v| Regexp.escape(v) }.join("|"))
+      @non_mobile_agent_matcher ||= Regexp.new(NON_MOBILE_USER_AGENTS.uniq.compact.map { |v| Regexp.escape(v) }.join('|'))
     end
 
     def self.matched_by?(user_agent)
