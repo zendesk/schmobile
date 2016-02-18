@@ -19,6 +19,5 @@ module Schmobile
   end
 end
 
-Rack::Request.class_eval do
-  include Schmobile::Request
-end
+Rack::Request.include Schmobile::Request
+ActionDispatch::Request.include Schmobile::Request if defined?(ActionDispatch::Request)

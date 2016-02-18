@@ -10,4 +10,17 @@ rvm:
   - 2.2.4
   - 2.3.0
   - rbx-3.14
-  - jruby-9
+  - jruby-9.0.5.0
+
+gemfile:
+  - gemfiles/rack1.0.gemfile
+  - gemfiles/rack2.0.gemfile
+
+matrix:
+  fast_finish: true
+  exclude:
+    - rvm: 2.1.8
+      gemfile: gemfiles/rack2.0.gemfile
+  allow_failures:
+    - rvm: jruby-9.0.5.0
+      gemfile: gemfiles/rack2.0.gemfile

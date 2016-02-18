@@ -1,5 +1,11 @@
 require 'rack'
 
+begin
+  require 'action_dispatch'
+rescue LoadError
+  # It's fine, actionpack isn't present
+end
+
 require 'schmobile/version'
 require 'schmobile/middleware'
 require 'schmobile/request_extension'

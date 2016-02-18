@@ -56,6 +56,10 @@ module RequestHelper
     Rack::Request.new(environment(overwrite))
   end
 
+  def action_dispatch_request(overwrite = {})
+    ActionDispatch::Request.new(environment(overwrite))
+  end
+
   def environment(overwrite = {})
      {
        'GATEWAY_INTERFACE'=> 'CGI/1.2',
