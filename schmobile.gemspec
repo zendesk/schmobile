@@ -3,7 +3,6 @@ require './lib/schmobile/version'
 Gem::Specification.new do |s|
   s.name        = 'schmobile'
   s.version     = Schmobile::VERSION
-  s.date        = '2012-06-14'
   s.files       = `git ls-files`.split("\n")
   s.license     = 'Apache License Version 2.0'
 
