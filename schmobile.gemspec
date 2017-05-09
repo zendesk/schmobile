@@ -13,6 +13,8 @@ Gem::Specification.new do |s|
   s.email    = %w[primdahl@me.com pschambacher@zendesk.com]
   s.homepage = 'http://github.com/zendesk/schmobile'
 
+  s.required_ruby_version = '>= 2.2.0'
+
   s.require_paths = %w[lib]
 
   s.add_runtime_dependency('rack')
