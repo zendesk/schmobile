@@ -2,14 +2,13 @@ sudo: false
 
 cache: bundler
 
-branch:
+branches:
   only: master
 
 rvm:
   - 2.2.7
   - 2.3.4
   - 2.4.1
-  - rbx-3.14
   - jruby-9.0.5.0
 
 gemfile:
